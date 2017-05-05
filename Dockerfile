@@ -2,7 +2,7 @@ FROM python:2.7
 
 MAINTAINER David Bauske <david.bauske@voltstorage.com>
 
-RUN cd
+WORKDIR /root
 
 RUN apt-get update
 
@@ -13,8 +13,11 @@ RUN pip install platformio
 RUN pio platforms install espressif8266
 
 RUN git clone https://github.com/igrr/mkspiffs
-RUN cd mkspiffs
+
+WORKDIR /root/mkspiffs
+RUN echo "cur: $(pwd)"
 RUN make dist
 RUN cp mkspiffs /bin/
-RUN cd
+
+WORKDIR /root
 RUN rm -R mkspiffs
